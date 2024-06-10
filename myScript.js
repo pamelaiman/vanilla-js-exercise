@@ -2,10 +2,12 @@
 // import { getElementByIdOrFail } from "./utils.js";
 // import { antiHeroes } from "./antiheroes.js";
 import { characters } from "./characters.js";
+const arrayOfLiElements = [];
 
 renderCharacterListToHTML();
 setupSearchButton();
 setupCauseAnErrorButton();
+removeCharacterButton();
 
 function renderCharacterListToHTML() {
     const characterLiElements = makeLiElementsForCharacters();
@@ -25,8 +27,9 @@ function createOneLiElementForCharacter(character) {
     element.innerHTML = character.name + " from " + character.book;
 
     element.addEventListener("click", () => {
-        alert(character.powers.join(", "));
+        alert(character.name.toUpperCase() + ": " + character.powers.join(", ").toUpperCase());
     });
+
     element.addEventListener("mouseover", () => {
         focusedCharacterParagraph.innerText =
             character.name + ": " + character.powers.join(", ");
@@ -35,13 +38,24 @@ function createOneLiElementForCharacter(character) {
 }
 
 function makeLiElementsForCharacters() {
-    const arrayOfLiElements = [];
-
     for (const character of characters) {
         const element = createOneLiElementForCharacter(character);
         arrayOfLiElements.push(element);
     }
     return arrayOfLiElements;
+}
+
+function removeCharacterButton() {
+    const myRemoveButton = document.getElementById("removeCharacterButton");
+    myRemoveButton.addEventListener("click", () => {
+        const myList = document.getElementById("charactersUL");
+        const liToRemove = myList.lastElementChild;
+        if (liToRemove !== null) {
+            myList.removeChild(liToRemove);
+        } else {
+             alert("nothing to remove")
+        }
+    });
 }
 
 function setupSearchButton() {
@@ -68,3 +82,4 @@ function screwUpIntentionally() {
     x = 20;
     console.log("This function is about to finish normally");
 }
+
